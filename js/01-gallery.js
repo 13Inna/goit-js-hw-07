@@ -1,9 +1,12 @@
 import { galleryItems } from './gallery-items.js';
+// Change code below this line
+
 let galleryEl = document.querySelector('.gallery');
-let getElements = document.querySelector('gallery__item');
-const bigPicture = galleryItems.map(
+
+const imgEl = galleryItems
+  .map(
     img => `<div class="gallery__item">
-    <a class="gallery__link" href=${img.original}>
+                <a class="gallery__link" href=${img.original}>
                     <img
                     class="gallery__image"
                     src=${img.preview}
@@ -11,26 +14,24 @@ const bigPicture = galleryItems.map(
                     alt=${img.description}
                     />
                 </a>
-    </div>`,
-)
-    .join('');
-galleryEl.insertAdjacentHTML('beforeend', bigPicture);
+            </div>`,
+  )
+  .join('');
 
-for (let index = 0; index < getElements.length; index++) {
-    getElements[i].addEventListener('click',
-        function (event) {
-            event.preventDefault();
-            return false;
-        });
+galleryEl.insertAdjacentHTML('beforeend', imgEl);
 
-    const currentImg = getElements[i].dataset.sourse;
-    getElements[i].onclick = () => {
-        const libraryImg = basicLightbox.create(`<img width="1280" height="720" src=${currentImg}>`);
-        libraryImg.show();
-        document.addEventListener('keydown', closeModal);
-    
-        function closeModal(e) {
-            if (e.code === 'Escape') libraryImg.close();
-        };
-    };
-};
+for (let i = 0; i < document.getElementsByClassName('gallery__item').length; i++) {
+  document.getElementsByClassName('gallery__link')[i].addEventListener('click', function (e) {
+    e.preventDefault();
+    return false;
+  });
+  const currentImg = document.getElementsByClassName('gallery__image')[i].dataset.source;
+  document.getElementsByClassName('gallery__item')[i].onclick = () => {
+    const imageLibrary = basicLightbox.create(`<img width="1280" height="720" src=${currentImg}>`);
+    imageLibrary.show();
+    document.addEventListener('keyup', e => {
+      if (e.code === 'Escape') imageLibrary.close();
+    });
+  };
+}
+
